@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFC Phone Finder</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --sfc-green: #CEFFA8;
+    --sfc-dark: #0E3B3B;
+    --sfc-green-tint: #EDFFDD;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(14, 59, 59, 0.08);
+    --shadow-lg: 0 4px 24px rgba(14, 59, 59, 0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.3s ease;
+  }
+
+  body {
+    font-family: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--white);
+    color: var(--sfc-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .quiz-container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+    min-height: 100vh;
+  }
+
+  .quiz-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .quiz-header h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    color: var(--sfc-dark);
+    margin-bottom: 4px;
+  }
+
+  /* Progress */
+  .progress-wrapper { margin-bottom: 32px; }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--sfc-dark);
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--sfc-green-tint);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--sfc-green);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* Question */
+  .question-screen { animation: slideIn 0.35s ease; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    color: var(--sfc-dark);
+  }
+
+  .question-subtitle {
+    font-size: 0.9rem;
+    color: var(--sfc-dark);
+    opacity: 0.55;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  /* Options */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .options-list.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .options-list.grid-layout .option-btn {
+    text-align: center;
+    justify-content: center;
+    padding: 12px 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--sfc-green-tint);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--sfc-dark);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition);
+  }
+
+  .option-btn:hover {
+    background: var(--sfc-green);
+    border-color: var(--sfc-green);
+  }
+
+  .option-btn.selected {
+    background: var(--sfc-dark);
+    border-color: var(--sfc-dark);
+    color: var(--white);
+  }
+
+  .check-box {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--sfc-dark);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    font-size: 0.75rem;
+  }
+
+  .option-btn.selected .check-box {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--sfc-dark);
+  }
+
+  .options-list.grid-layout .check-box { display: none; }
+
+  /* Topic detail — two-box pros/cons layout */
+  .topic-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .topic-box {
+    background: var(--sfc-green-tint);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+
+  .topic-box.pros-box {
+    border-top: 3px solid #6abf6a;
+  }
+
+  .topic-box.cons-box {
+    border-top: 3px solid #c27a7a;
+  }
+
+  .topic-box h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 10px;
+    color: var(--sfc-dark);
+  }
+
+  .topic-row {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--sfc-dark);
+    opacity: 0.8;
+  }
+
+  .topic-row + .topic-row { margin-top: 6px; }
+
+  .topic-icon {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 14px;
+    text-align: center;
+  }
+
+  .topic-icon.pro { color: #2d7a2d; }
+  .topic-icon.con { color: #a04040; }
+
+  /* Navigation */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .btn-back {
+    background: transparent;
+    color: var(--sfc-dark);
+    padding-left: 0;
+  }
+
+  .btn-back:hover:not(:disabled) { opacity: 0.7; }
+
+  .btn-next {
+    background: var(--sfc-dark);
+    color: var(--white);
+    margin-left: auto;
+  }
+
+  .btn-next:hover:not(:disabled) { background: #164e4e; }
+
+  /* Welcome */
+  .welcome-screen {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .welcome-screen h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .welcome-screen p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    opacity: 0.75;
+    margin-bottom: 12px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .welcome-screen p:last-of-type { margin-bottom: 32px; }
+
+  .btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 36px;
+    background: var(--sfc-dark);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .btn-start:hover { background: #164e4e; }
+
+  /* Results */
+  .results-screen {
+    display: none;
+    animation: slideIn 0.35s ease;
+  }
+
+  .results-screen.active { display: block; }
+
+  .results-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .results-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .results-header p {
+    font-size: 0.95rem;
+    opacity: 0.7;
+  }
+
+  /* Device cards */
+  .device-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .device-card-header {
+    background: var(--sfc-green);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .device-card-header h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sfc-dark);
+  }
+
+  .device-category {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sfc-dark);
+    opacity: 0.7;
+  }
+
+  .device-card-body {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .device-image-wrapper {
+    flex-shrink: 0;
+    width: 110px;
+    height: 130px;
+    background: var(--sfc-green-tint);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .device-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .device-image-placeholder {
+    font-size: 2.5rem;
+    opacity: 0.6;
+  }
+
+  .device-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .device-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--sfc-dark);
+    margin-bottom: 8px;
+  }
+
+  .device-summary {
+    font-size: 0.93rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    opacity: 0.8;
+  }
+
+  .device-why {
+    background: var(--sfc-green-tint);
+    border-left: 3px solid var(--sfc-green);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .device-why strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .feature-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .feature-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: var(--sfc-green-tint);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--sfc-dark);
+  }
+
+  .feature-badge.has { background: var(--sfc-green); }
+
+  /* Reassurance + footer */
+  .reassurance {
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 8px;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--sfc-dark);
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  .results-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .btn-alternatives {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--sfc-green);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sfc-dark);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+
+  .btn-alternatives:hover { background: #b8f08a; }
+
+  .btn-restart {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 28px;
+    background: transparent;
+    border: 2px solid var(--sfc-dark);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sfc-dark);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .btn-restart:hover {
+    background: var(--sfc-dark);
+    color: var(--white);
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .no-results h3 { font-size: 1.2rem; margin-bottom: 12px; }
+
+  .no-results p {
+    font-size: 0.95rem;
+    opacity: 0.7;
+    line-height: 1.6;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .quiz-container { padding: 16px 16px 32px; }
+    .quiz-header h1 { font-size: 1.6rem; }
+    .question-text { font-size: 1.2rem; }
+    .option-btn { padding: 12px 14px; font-size: 0.95rem; }
+    .options-list.grid-layout { grid-template-columns: repeat(4, 1fr); }
+    .options-list.grid-layout .option-btn { padding: 10px 6px; font-size: 1rem; }
+    .welcome-screen h2 { font-size: 1.35rem; }
+    .topic-detail { grid-template-columns: 1fr; }
+    .device-card-body { flex-direction: column; }
+    .device-image-wrapper { width: 100%; height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz">
+  <div class="welcome-screen" id="welcome">
+    <div class="quiz-header">
+      <h1 id="quizTitle">SFC Phone Finder</h1>
+    </div>
+    <h2>Find the right device for your child</h2>
+    <p>There are dozens of smartphone alternatives out there. This quiz helps you cut through the noise and find the best fit for your family.</p>
+    <p>It takes about 2 minutes. Some questions include a bit of context about the tradeoffs involved, so you'll learn as you go.</p>
+    <button class="btn-start" onclick="startQuiz()">Let's find the right fit &rarr;</button>
+  </div>
+
+  <div id="questionArea" style="display:none;">
+    <div class="quiz-header">
+      <h1 id="quizTitleSmall">SFC Phone Finder</h1>
+    </div>
+    <div class="progress-wrapper">
+      <div class="progress-label">
+        <span id="progressText">Question 1 of 10</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+    <div id="questionContainer"></div>
+    <div class="nav-row">
+      <button class="nav-btn btn-back" id="btnBack" onclick="goBack()" disabled>&larr; Back</button>
+      <button class="nav-btn btn-next" id="btnNext" onclick="goNext()" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <div class="results-screen" id="resultsArea">
+    <div class="quiz-header">
+      <h1>SFC Phone Finder</h1>
+    </div>
+    <div class="results-header">
+      <h2>Based on your answers, here are your best options</h2>
+      <p>We've matched your priorities to the devices that fit best.</p>
+    </div>
+    <div id="resultsContainer"></div>
+    <div class="reassurance" id="reassuranceText"></div>
+    <div class="results-footer">
+      <a class="btn-alternatives" href="https://www.smartphonefreechildhood.org/alternatives" target="_blank" rel="noopener">Browse all alternatives on the SFC website &rarr;</a>
+      <button class="btn-restart" onclick="restartQuiz()">Start again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let quizData = null;
+let currentQuestion = 0;
+let answers = {};
+
+const CATEGORY_ICONS = {
+  'First Phone': '📱',
+  'Follow-on Phone': '📲',
+  'Voice Messenger': '🎙️',
+  'Home Phone': '☎️'
+};
+
+async function loadData() {
+  try {
+    const resp = await fetch('phone-finder-data.json');
+    if (!resp.ok) throw new Error(resp.statusText);
+    quizData = await resp.json();
+  } catch (e) {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'phone-finder-data.json', false);
+      xhr.send();
+      if (xhr.status === 0 || xhr.status === 200) {
+        quizData = JSON.parse(xhr.responseText);
+      }
+    } catch (e2) {
+      console.error('Could not load phone-finder-data.json', e2);
+    }
+  }
+  if (quizData && quizData.quizTitle) {
+    document.getElementById('quizTitle').textContent = quizData.quizTitle;
+    document.getElementById('quizTitleSmall').textContent = quizData.quizTitle;
+  }
+}
+
+function startQuiz() {
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('questionArea').style.display = 'block';
+  currentQuestion = 0;
+  answers = {};
+  renderQuestion();
+}
+
+function restartQuiz() {
+  document.getElementById('resultsArea').classList.remove('active');
+  document.getElementById('welcome').style.display = 'block';
+  document.getElementById('questionArea').style.display = 'none';
+  currentQuestion = 0;
+  answers = {};
+}
+
+function getSelectedIndices(qId) {
+  const val = answers[qId];
+  if (val === undefined) return [];
+  return Array.isArray(val) ? val : [val];
+}
+
+function isAnswered(qId, q) {
+  const val = answers[qId];
+  if (val === undefined) return false;
+  if (q.multiSelect) return Array.isArray(val) && val.length > 0;
+  return true;
+}
+
+function renderQuestion() {
+  const q = quizData.questions[currentQuestion];
+  const total = quizData.questions.length;
+  const pct = Math.round((currentQuestion / total) * 100);
+
+  document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} of ${total}`;
+  document.getElementById('progressPercent').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+
+  const selected = getSelectedIndices(q.id);
+  const isGrid = q.layout === 'grid';
+  const isMulti = q.multiSelect;
+
+  let html = '<div class="question-screen">';
+  html += `<h2 class="question-text">${q.text}</h2>`;
+  if (q.subtitle || isMulti) {
+    html += `<p class="question-subtitle">${q.subtitle || 'Select all that apply'}</p>`;
+  } else {
+    html += '<div style="margin-bottom:18px"></div>';
+  }
+
+  html += `<div class="options-list${isGrid ? ' grid-layout' : ''}">`;
+  q.options.forEach((opt, i) => {
+    const sel = selected.includes(i) ? ' selected' : '';
+    const checkHtml = isMulti && !isGrid
+      ? `<span class="check-box">${selected.includes(i) ? '&#10003;' : ''}</span>`
+      : '';
+    html += `<button class="option-btn${sel}" onclick="selectOption(${i})" data-index="${i}">${checkHtml}<span>${opt.label}</span></button>`;
+  });
+  html += '</div>';
+
+  // Topic-level pros/cons boxes (two columns)
+  if (q.topicDetail) {
+    const td = q.topicDetail;
+    html += '<div class="topic-detail">';
+    html += '<div class="topic-box pros-box">';
+    html += `<h4>${td.prosTitle}</h4>`;
+    td.pros.forEach(p => {
+      html += `<div class="topic-row"><span class="topic-icon pro">+</span><span>${p}</span></div>`;
+    });
+    html += '</div>';
+    html += '<div class="topic-box cons-box">';
+    html += `<h4>${td.consTitle}</h4>`;
+    td.cons.forEach(c => {
+      html += `<div class="topic-row"><span class="topic-icon con">&minus;</span><span>${c}</span></div>`;
+    });
+    html += '</div>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+
+  document.getElementById('questionContainer').innerHTML = html;
+  document.getElementById('btnBack').disabled = currentQuestion === 0;
+  document.getElementById('btnNext').disabled = !isAnswered(q.id, q);
+
+  const isLast = currentQuestion === total - 1;
+  document.getElementById('btnNext').textContent = isLast ? 'See results →' : 'Next →';
+}
+
+function selectOption(index) {
+  const q = quizData.questions[currentQuestion];
+
+  if (q.multiSelect) {
+    if (!Array.isArray(answers[q.id])) answers[q.id] = [];
+    const arr = answers[q.id];
+    const pos = arr.indexOf(index);
+    if (pos === -1) arr.push(index);
+    else arr.splice(pos, 1);
+  } else {
+    answers[q.id] = index;
+  }
+
+  renderQuestion();
+}
+
+function goNext() {
+  if (currentQuestion < quizData.questions.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function goBack() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function collectUserTags() {
+  const tags = [];
+  for (const qId in answers) {
+    const q = quizData.questions.find(x => x.id === qId);
+    if (!q) continue;
+    const indices = Array.isArray(answers[qId]) ? answers[qId] : [answers[qId]];
+    for (const idx of indices) {
+      const opt = q.options[idx];
+      if (opt && opt.tags) tags.push(...opt.tags);
+    }
+  }
+  return tags;
+}
+
+function getUserAgeRange() {
+  const ageQ = quizData.questions.find(q => q.id === 'age');
+  if (ageQ && answers['age'] !== undefined) {
+    const idx = Array.isArray(answers['age']) ? answers['age'][0] : answers['age'];
+    return ageQ.options[idx].value;
+  }
+  return null;
+}
+
+function getUserBudgetTags() {
+  const budgetQ = quizData.questions.find(q => q.id === 'budget');
+  if (!budgetQ || answers['budget'] === undefined) return [];
+  const indices = Array.isArray(answers['budget']) ? answers['budget'] : [answers['budget']];
+  return indices.flatMap(idx => budgetQ.options[idx].tags);
+}
+
+function scoreDevices() {
+  const userTags = collectUserTags();
+  const ageRange = getUserAgeRange();
+  const budgetTags = getUserBudgetTags();
+
+  const mustHaveTags = ['needs-calls', 'needs-texts', 'needs-gps', 'needs-whatsapp', 'needs-voice-messages', 'needs-modern-look', 'needs-durable'];
+  const screenTags = ['no-screen', 'basic-screen', 'touchscreen'];
+  const internetTags = ['no-internet', 'limited-internet', 'controlled-internet'];
+
+  return quizData.devices
+    .filter(device => {
+      if (ageRange && !device.ageRange.includes(ageRange)) return false;
+      if (budgetTags.length > 0 && device.budgetRange) {
+        if (!device.budgetRange.some(b => budgetTags.includes(b))) return false;
+      }
+      return true;
+    })
+    .map(device => {
+      let score = 0;
+
+      userTags.forEach(tag => {
+        if (device.tags.includes(tag)) {
+          score += mustHaveTags.includes(tag) ? 3 : 1;
+        }
+      });
+
+      const userScreen = userTags.find(t => screenTags.includes(t));
+      if (userScreen) {
+        if (device.tags.includes(userScreen)) {
+          score += 4;
+        } else if (
+          (userScreen === 'touchscreen' && device.features.touchscreen) ||
+          (userScreen === 'basic-screen' && !device.features.touchscreen && device.features.messaging) ||
+          (userScreen === 'no-screen' && !device.features.messaging && !device.features.touchscreen)
+        ) {
+          score += 4;
+        }
+      }
+
+      const userInternet = userTags.find(t => internetTags.includes(t));
+      if (userInternet) {
+        if (device.tags.includes(userInternet)) {
+          score += 3;
+        } else if (userInternet === 'no-internet' && !device.features.internet) {
+          score += 3;
+        } else if (userInternet === 'no-internet' && device.features.internet) {
+          score -= 5;
+        }
+      }
+
+      if (budgetTags.length > 0 && device.budgetRange) {
+        if (device.budgetRange.some(b => budgetTags.includes(b))) score += 2;
+      }
+
+      if (userTags.includes('wants-camera') && device.features.camera) score += 2;
+      if (userTags.includes('no-camera-ok') && !device.features.camera) score += 1;
+
+      if (userTags.includes('wants-transition-path') && device.tags.includes('wants-transition-path')) score += 2;
+      if (userTags.includes('wants-simplicity') && device.tags.includes('wants-simplicity')) score += 2;
+
+      if (userTags.includes('school-strict') && device.features.touchscreen) score -= 2;
+      if (userTags.includes('school-basic-only') && device.features.apps) score -= 3;
+
+      return { device, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .filter(d => d.score > 0);
+}
+
+function generateWhyText(device) {
+  const userTags = collectUserTags();
+  const reasons = [];
+
+  if (userTags.includes('needs-gps') && device.features.gps)
+    reasons.push('has the GPS tracking you want');
+  if (userTags.includes('wants-camera') && device.features.camera)
+    reasons.push('includes a camera');
+  if (userTags.includes('no-camera-ok') && !device.features.camera)
+    reasons.push('keeps things simple with no camera');
+  if (userTags.includes('needs-whatsapp') && device.tags.includes('needs-whatsapp'))
+    reasons.push('supports WhatsApp for group chats');
+  if (userTags.includes('no-internet') && !device.features.internet)
+    reasons.push('has zero internet access');
+  if (userTags.includes('needs-modern-look') && device.features.touchscreen)
+    reasons.push('looks modern enough to reduce social pressure');
+  if (userTags.includes('needs-durable') && device.features.durable)
+    reasons.push('is built to survive drops and rain');
+
+  if (reasons.length === 0) return device.bestFor;
+
+  const reasonStr = reasons.length === 1
+    ? reasons[0]
+    : reasons.slice(0, -1).join(', ') + ' and ' + reasons[reasons.length - 1];
+
+  return `This ${reasonStr}. ${device.bestFor}`;
+}
+
+function renderFeatureBadges(features) {
+  const labels = {
+    camera: { icon: '📷', label: 'Camera' },
+    gps: { icon: '📍', label: 'GPS' },
+    messaging: { icon: '💬', label: 'Texts' },
+    internet: { icon: '🌐', label: 'Internet' },
+    apps: { icon: '📱', label: 'Apps' },
+    touchscreen: { icon: '👆', label: 'Touchscreen' },
+    durable: { icon: '💪', label: 'Durable' },
+    voiceMessages: { icon: '🎙️', label: 'Voice msgs' }
+  };
+  let html = '';
+  for (const [key, val] of Object.entries(features)) {
+    if (labels[key] && val) {
+      html += `<span class="feature-badge has">${labels[key].icon} ${labels[key].label}</span>`;
+    }
+  }
+  return html;
+}
+
+function renderDeviceImage(device) {
+  const icon = CATEGORY_ICONS[device.category] || '📱';
+  if (device.image) {
+    return `<div class="device-image-wrapper">
+      <img src="${device.image}" alt="${device.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="device-image-placeholder" style="display:none">${icon}</div>
+    </div>`;
+  }
+  return `<div class="device-image-wrapper"><div class="device-image-placeholder">${icon}</div></div>`;
+}
+
+function showResults() {
+  document.getElementById('questionArea').style.display = 'none';
+  document.getElementById('resultsArea').classList.add('active');
+
+  const scored = scoreDevices();
+  const container = document.getElementById('resultsContainer');
+
+  if (scored.length === 0) {
+    container.innerHTML = `
+      <div class="no-results">
+        <h3>We couldn't find a perfect match</h3>
+        <p>Based on your answers, none of the devices in our database tick all your boxes. That's actually useful information — it might mean your child's needs are best served by a combination of devices, or that the right device hasn't been made yet.</p>
+      </div>`;
+  } else {
+    container.innerHTML = scored.map(({ device }) => `
+      <div class="device-card">
+        <div class="device-card-header">
+          <h3>${device.name}</h3>
+          <span class="device-category">${device.category}</span>
+        </div>
+        <div class="device-card-body">
+          ${renderDeviceImage(device)}
+          <div class="device-card-content">
+            <div class="device-price">${device.price}</div>
+            <p class="device-summary">${device.summary}</p>
+            <div class="device-why">
+              <strong>Why this suits you</strong>
+              ${generateWhyText(device)}
+            </div>
+            <div class="feature-badges">
+              ${renderFeatureBadges(device.features)}
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('reassuranceText').textContent = quizData.reassurance;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('questionArea').style.display === 'none') return;
+  if (e.key === 'ArrowRight' || e.key === 'Enter') {
+    const btn = document.getElementById('btnNext');
+    if (!btn.disabled) goNext();
+  }
+  if (e.key === 'ArrowLeft') {
+    const btn = document.getElementById('btnBack');
+    if (!btn.disabled) goBack();
+  }
+  const num = parseInt(e.key);
+  if (num >= 1 && num <= 9) {
+    const q = quizData.questions[currentQuestion];
+    if (num <= q.options.length) selectOption(num - 1);
+  }
+});
+
+loadData();
+</script>
+
+</body>
+</html>

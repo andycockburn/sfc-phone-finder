@@ -1,0 +1,449 @@
+{
+  "quizTitle": "SFC Phone Finder",
+  "quizSubtitle": "Find the right device for your child",
+  "reassurance": "Whatever you choose, you're already doing the right thing by thinking about this. There's no perfect answer — just the right one for your family.",
+  "questions": [
+    {
+      "id": "age",
+      "text": "How old is your child?",
+      "layout": "grid",
+      "multiSelect": false,
+      "options": [
+        { "label": "9", "value": "8-10", "tags": ["age-8-10"] },
+        { "label": "10", "value": "8-10", "tags": ["age-8-10"] },
+        { "label": "11", "value": "11-13", "tags": ["age-11-13"] },
+        { "label": "12", "value": "11-13", "tags": ["age-11-13"] },
+        { "label": "13", "value": "11-13", "tags": ["age-11-13"] },
+        { "label": "14", "value": "14-16", "tags": ["age-14-16"] },
+        { "label": "15", "value": "14-16", "tags": ["age-14-16"] },
+        { "label": "16", "value": "14-16", "tags": ["age-14-16"] }
+      ]
+    },
+    {
+      "id": "primary-need",
+      "text": "What's the main reason your child needs a device?",
+      "subtitle": "Select all that apply",
+      "multiSelect": true,
+      "options": [
+        { "label": "Staying in touch when apart", "value": "contact", "tags": ["needs-calls"] },
+        { "label": "Safety & tracking", "value": "safety", "tags": ["needs-gps", "needs-calls"] },
+        { "label": "Independence for walking/cycling to school", "value": "independence", "tags": ["needs-gps", "needs-calls"] },
+        { "label": "Keeping up with friends", "value": "social", "tags": ["needs-messaging", "needs-modern-look"] },
+        { "label": "All of the above", "value": "all", "tags": ["needs-calls", "needs-gps", "needs-messaging"] }
+      ]
+    },
+    {
+      "id": "camera",
+      "text": "Does your child need a camera on their device?",
+      "multiSelect": false,
+      "topicDetail": {
+        "prosTitle": "Pros of cameras",
+        "consTitle": "Cons of cameras",
+        "pros": [
+          "Lets your child capture memories and express creativity",
+          "Useful for homework, scanning QR codes, and practical everyday tasks"
+        ],
+        "cons": [
+          "Can contribute to selfie culture and appearance-based comparison",
+          "Many smartphone-free schools don't allow camera phones on site",
+          "Opens the door to inappropriate photo sharing"
+        ]
+      },
+      "options": [
+        { "label": "Yes, important", "value": "camera-yes", "tags": ["wants-camera"] },
+        { "label": "Not needed", "value": "camera-no", "tags": ["no-camera-ok"] },
+        { "label": "Nice to have but not essential", "value": "camera-maybe", "tags": ["camera-flexible"] }
+      ]
+    },
+    {
+      "id": "messaging",
+      "text": "What kind of messaging does your child need?",
+      "multiSelect": false,
+      "topicDetail": {
+        "prosTitle": "Pros of messaging apps",
+        "consTitle": "Cons of messaging apps",
+        "pros": [
+          "Access to the group chats that friends and family already use",
+          "Free messaging, calls, and media sharing worldwide",
+          "Standard texting now supports group messages and photo sharing — so your child can do more than you'd think without needing WhatsApp"
+        ],
+        "cons": [
+          "Group chats can expose your child to content you can't control",
+          "Creates pressure to be 'always on' and respond immediately",
+          "Harder to monitor than simple calls and texts"
+        ]
+      },
+      "options": [
+        { "label": "Calls only", "value": "calls-only", "tags": ["needs-calls"] },
+        { "label": "Calls and texts", "value": "calls-texts", "tags": ["needs-calls", "needs-texts"] },
+        { "label": "Calls, texts and voice messages", "value": "calls-texts-voice", "tags": ["needs-calls", "needs-texts", "needs-voice-messages"] },
+        { "label": "WhatsApp or similar", "value": "whatsapp", "tags": ["needs-calls", "needs-texts", "needs-whatsapp"] }
+      ]
+    },
+    {
+      "id": "gps",
+      "text": "Is it important to you to be able to see where your child is?",
+      "multiSelect": false,
+      "topicDetail": {
+        "prosTitle": "Pros of tracking",
+        "consTitle": "Cons of tracking",
+        "pros": [
+          "Real-time location tracking gives genuine peace of mind",
+          "Particularly valuable when children first start travelling independently",
+          "Some trackers include SOS buttons for emergencies"
+        ],
+        "cons": [
+          "Can feel like surveillance and undermine trust-building",
+          "Usually requires a monthly subscription (£3–5/mo)",
+          "GPS drains battery — devices need charging more often"
+        ]
+      },
+      "options": [
+        { "label": "Yes, essential", "value": "gps-yes", "tags": ["needs-gps"] },
+        { "label": "Would be nice", "value": "gps-nice", "tags": ["gps-flexible"] },
+        { "label": "No, I trust them to check in", "value": "gps-no", "tags": ["no-gps-ok"] }
+      ]
+    },
+    {
+      "id": "internet",
+      "text": "Should the device have any internet access?",
+      "multiSelect": false,
+      "topicDetail": {
+        "prosTitle": "Pros of internet access",
+        "consTitle": "Cons of internet access",
+        "pros": [
+          "Access to maps, music streaming, and educational content",
+          "Prepares your child for the digital world with guardrails in place",
+          "Needed for some school apps and homework resources"
+        ],
+        "cons": [
+          "Opens the door to unfiltered content, social media, and endless rabbit holes",
+          "'Limited' access can be hard to enforce — children find workarounds",
+          "The closer the device is to a smartphone, the harder it is to draw the line"
+        ]
+      },
+      "options": [
+        { "label": "Absolutely not", "value": "no-internet", "tags": ["no-internet"] },
+        { "label": "Limited and controlled", "value": "limited-internet", "tags": ["limited-internet"] },
+        { "label": "Yes, but with parental controls", "value": "controlled-internet", "tags": ["controlled-internet"] }
+      ]
+    },
+    {
+      "id": "screen",
+      "text": "What kind of screen feels right?",
+      "multiSelect": false,
+      "topicDetail": {
+        "prosTitle": "Pros of touch screens",
+        "consTitle": "Cons of touch screens",
+        "pros": [
+          "Feels 'normal' to children — reduces social pressure and resistance",
+          "Easier and more intuitive to use",
+          "More accessible for children with additional needs"
+        ],
+        "cons": [
+          "The closer it looks to a smartphone, the closer it feels to one",
+          "More expensive and more fragile than basic-screen devices",
+          "More tempting to pick up and use excessively"
+        ]
+      },
+      "options": [
+        { "label": "No screen", "value": "no-screen", "tags": ["no-screen"] },
+        { "label": "Small basic screen", "value": "basic-screen", "tags": ["basic-screen"] },
+        { "label": "Touchscreen like a phone", "value": "touchscreen", "tags": ["touchscreen"] }
+      ]
+    },
+    {
+      "id": "school-policy",
+      "text": "Does your child's school have a phone policy?",
+      "multiSelect": false,
+      "options": [
+        { "label": "No phones allowed at all", "value": "no-phones", "tags": ["school-strict"] },
+        { "label": "Basic phones only (no smartphones)", "value": "basic-only", "tags": ["school-basic-only"] },
+        { "label": "Phones allowed but collected", "value": "phones-collected", "tags": ["school-flexible"] },
+        { "label": "No policy", "value": "no-policy", "tags": ["school-flexible"] },
+        { "label": "I'm not sure", "value": "unsure", "tags": ["school-flexible"] }
+      ]
+    },
+    {
+      "id": "smartphone-look",
+      "text": "How much do you care about your child having a device that looks like a smartphone?",
+      "multiSelect": false,
+      "topicDetail": {
+        "prosTitle": "Pros of looking like a smartphone",
+        "consTitle": "Cons of looking like a smartphone",
+        "pros": [
+          "Reduces social friction — friends are less likely to comment or tease",
+          "Your child is more likely to actually want to carry and use it",
+          "Feels 'normal' in social settings like school pick-up or clubs"
+        ],
+        "cons": [
+          "A smartphone-looking device can create smartphone-level expectations",
+          "More expensive — touchscreen devices cost more than basic phones",
+          "Harder to explain why it can't do what a real smartphone does"
+        ]
+      },
+      "options": [
+        { "label": "A lot — it'll make things easier for them", "value": "high-importance", "tags": ["needs-modern-look"] },
+        { "label": "Somewhat — a modern look would help but it's not essential", "value": "some-importance", "tags": ["modern-look-flexible"] },
+        { "label": "Not at all — I'd prefer it didn't look like a smartphone", "value": "no-importance", "tags": ["any-look-ok"] }
+      ]
+    },
+    {
+      "id": "budget",
+      "text": "What's your budget?",
+      "subtitle": "Select all price ranges you'd consider",
+      "multiSelect": true,
+      "options": [
+        { "label": "Under £25", "value": "budget-under-25", "tags": ["budget-under-25"] },
+        { "label": "£25–50", "value": "budget-low", "tags": ["budget-low"] },
+        { "label": "£50–150", "value": "budget-mid", "tags": ["budget-mid"] },
+        { "label": "£150–300", "value": "budget-high", "tags": ["budget-high"] },
+        { "label": "£300+", "value": "budget-premium", "tags": ["budget-premium"] }
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "id": "nokia-105",
+      "name": "Nokia 105 2G",
+      "category": "First Phone",
+      "price": "£25",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a9ceb1f5c66c71232c31_device_img-Nokia%20105%202G.webp",
+      "ageRange": ["5-7", "8-10", "11-13"],
+      "budgetRange": ["budget-under-25", "budget-low"],
+      "tags": ["no-camera-ok", "no-gps-ok", "basic-screen", "no-internet", "needs-calls", "needs-durable", "school-strict", "school-basic-only", "wants-simplicity", "any-look-ok"],
+      "features": {
+        "camera": false,
+        "gps": false,
+        "messaging": true,
+        "internet": false,
+        "apps": false,
+        "touchscreen": false,
+        "durable": true,
+        "voiceMessages": false
+      },
+      "summary": "Ultra-basic calls and texts with an incredible battery that lasts for weeks. No camera, no internet, no distractions.",
+      "bestFor": "Families who want the simplest possible phone — just calls and texts, nothing else — at a price where it doesn't matter if it gets lost."
+    },
+    {
+      "id": "tcl-4022s",
+      "name": "TCL 4022S",
+      "category": "First Phone",
+      "price": "£28",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a1952f0e64ee00cd7694_device_img-TCL%204022S.webp",
+      "ageRange": ["5-7", "8-10", "11-13"],
+      "budgetRange": ["budget-low"],
+      "tags": ["no-camera-ok", "no-gps-ok", "basic-screen", "no-internet", "needs-calls", "needs-durable", "school-strict", "school-basic-only", "wants-simplicity", "any-look-ok"],
+      "features": {
+        "camera": true,
+        "gps": false,
+        "messaging": true,
+        "internet": false,
+        "apps": false,
+        "touchscreen": false,
+        "durable": true,
+        "voiceMessages": false
+      },
+      "summary": "A budget-friendly basic phone with an SOS button for emergencies. Has a very basic camera but no internet or apps.",
+      "bestFor": "Families on a tight budget who want a simple phone with the added safety of an emergency SOS button."
+    },
+    {
+      "id": "karri",
+      "name": "Karri",
+      "category": "Voice Messenger",
+      "price": "£40 + £4/mo",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/69c529061e56351ee62fd227_Karri%202.png",
+      "ageRange": ["5-7", "8-10"],
+      "budgetRange": ["budget-low", "budget-mid"],
+      "tags": ["no-camera-ok", "needs-gps", "no-screen", "no-internet", "needs-calls", "needs-voice-messages", "needs-durable", "school-strict", "wants-simplicity", "any-look-ok"],
+      "features": {
+        "camera": false,
+        "gps": true,
+        "messaging": false,
+        "internet": false,
+        "apps": false,
+        "touchscreen": false,
+        "durable": true,
+        "voiceMessages": true
+      },
+      "summary": "A screenless voice messenger with GPS tracking. Children send and receive voice messages and calls — nothing else.",
+      "bestFor": "Younger children who need to stay in touch and be trackable, without any screen time at all."
+    },
+    {
+      "id": "gpo-746",
+      "name": "GPO 746",
+      "category": "Home Phone",
+      "price": "£50",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/68cae975c05c9472230e7966_SFC_Alts_voip_01.jpg",
+      "ageRange": ["5-7", "8-10"],
+      "budgetRange": ["budget-low", "budget-mid"],
+      "tags": ["no-camera-ok", "no-gps-ok", "no-screen", "no-internet", "needs-calls", "wants-simplicity", "any-look-ok"],
+      "features": {
+        "camera": false,
+        "gps": false,
+        "messaging": false,
+        "internet": false,
+        "apps": false,
+        "touchscreen": false,
+        "durable": true,
+        "voiceMessages": false
+      },
+      "summary": "A VoIP home landline that plugs into your broadband. Your child can call and answer calls at home — no mobile needed.",
+      "bestFor": "Families who want their child reachable at home without giving them a mobile device at all."
+    },
+    {
+      "id": "nokia-2660-flip",
+      "name": "Nokia 2660 Flip",
+      "category": "First Phone",
+      "price": "£80",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a9d6c4bb16bded216b4f_device_img-Nokia%202660%20Flip.webp",
+      "ageRange": ["8-10", "11-13", "14-16"],
+      "budgetRange": ["budget-mid"],
+      "tags": ["camera-flexible", "no-gps-ok", "basic-screen", "no-internet", "needs-calls", "needs-texts", "needs-durable", "school-basic-only", "modern-look-flexible", "wants-simplicity", "durability-flexible"],
+      "features": {
+        "camera": true,
+        "gps": false,
+        "messaging": true,
+        "internet": true,
+        "apps": false,
+        "touchscreen": false,
+        "durable": true,
+        "voiceMessages": false
+      },
+      "summary": "A stylish 4G flip phone with calls, texts and a basic camera. Has a browser, but pair with a data-free SIM to keep it simple.",
+      "bestFor": "Children who want something that looks cool and feels grown-up, without the risks of a smartphone. Pair with a data-free SIM to block internet access."
+    },
+    {
+      "id": "the-phone-plus",
+      "name": "The Phone+",
+      "category": "First Phone",
+      "price": "€149",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821aa01985ccf55b16dff72_device_img-The%20Phone%2B.webp",
+      "ageRange": ["8-10", "11-13"],
+      "budgetRange": ["budget-mid", "budget-high"],
+      "tags": ["no-camera-ok", "no-gps-ok", "touchscreen", "no-internet", "needs-calls", "needs-texts", "school-basic-only", "needs-modern-look", "modern-look-flexible", "wants-simplicity"],
+      "features": {
+        "camera": false,
+        "gps": false,
+        "messaging": true,
+        "internet": false,
+        "apps": false,
+        "touchscreen": true,
+        "durable": false,
+        "voiceMessages": false
+      },
+      "summary": "A touchscreen phone that only does calls and texts — no camera, no internet, no GPS. Looks like a smartphone but isn't one.",
+      "bestFor": "Children who care about having a 'normal-looking' phone but whose parents want zero internet access. Reduces social pressure while keeping things simple."
+    },
+    {
+      "id": "xplora-one",
+      "name": "XploraOne",
+      "category": "First Phone",
+      "price": "£149",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/698cacabd3333b301241c12d_01.SFC_Alts_XploraOne_01.jpg",
+      "ageRange": ["8-10", "11-13"],
+      "budgetRange": ["budget-mid", "budget-high"],
+      "tags": ["wants-camera", "camera-flexible", "needs-gps", "touchscreen", "no-internet", "needs-calls", "needs-texts", "school-basic-only", "needs-modern-look", "modern-look-flexible", "wants-transition-path"],
+      "features": {
+        "camera": true,
+        "gps": true,
+        "messaging": true,
+        "internet": false,
+        "apps": false,
+        "touchscreen": true,
+        "durable": false,
+        "voiceMessages": false
+      },
+      "summary": "A touchscreen 'startphone' with calls, texts, GPS tracking and a camera — but no internet, apps or social media.",
+      "bestFor": "Families who want their child contactable and trackable, with a modern-looking device that's safe for school."
+    },
+    {
+      "id": "hmd-fusion-x1",
+      "name": "HMD Fusion X1",
+      "category": "Follow-on Phone",
+      "price": "£229 + £5/mo",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a1480dfc4da5adaa326a_device_img-HMD%20Fusion%20X1.webp",
+      "ageRange": ["11-13", "14-16"],
+      "budgetRange": ["budget-high", "budget-premium"],
+      "tags": ["wants-camera", "camera-flexible", "needs-gps", "touchscreen", "controlled-internet", "limited-internet", "needs-calls", "needs-texts", "needs-whatsapp", "needs-modern-look", "modern-look-flexible", "wants-transition-path", "school-flexible"],
+      "features": {
+        "camera": true,
+        "gps": true,
+        "messaging": true,
+        "internet": true,
+        "apps": true,
+        "touchscreen": true,
+        "durable": false,
+        "voiceMessages": true
+      },
+      "summary": "A child-safe smartphone with 5G, managed apps, GPS tracking and full parental controls. Looks and feels like a real phone — with guardrails.",
+      "bestFor": "Older children ready for more independence, where parents want to gradually introduce features with full oversight. A genuine stepping stone to a full smartphone."
+    },
+    {
+      "id": "pinwheel",
+      "name": "Pinwheel",
+      "category": "Follow-on Phone",
+      "price": "£239–479 + subscription",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a189897d94425d6220ff_device_img-Pinwheel.webp",
+      "ageRange": ["11-13", "14-16"],
+      "budgetRange": ["budget-high", "budget-premium"],
+      "tags": ["wants-camera", "camera-flexible", "needs-gps", "touchscreen", "controlled-internet", "limited-internet", "needs-calls", "needs-texts", "needs-modern-look", "modern-look-flexible", "wants-transition-path", "school-flexible"],
+      "features": {
+        "camera": true,
+        "gps": true,
+        "messaging": true,
+        "internet": true,
+        "apps": true,
+        "touchscreen": true,
+        "durable": false,
+        "voiceMessages": true
+      },
+      "summary": "A customised Android phone with 1,000+ vetted apps, GPS tracking and detailed parental controls. Parents choose exactly which apps to enable.",
+      "bestFor": "Families who want smartphone-level flexibility but with full control over what's available. Great for children who need specific apps for school or hobbies."
+    },
+    {
+      "id": "balance-phone",
+      "name": "Balance Phone",
+      "category": "Follow-on Phone",
+      "price": "£260",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a1318807751903b4d206_device_img-Balance%20Phone.webp",
+      "ageRange": ["11-13", "14-16"],
+      "budgetRange": ["budget-high", "budget-premium"],
+      "tags": ["wants-camera", "camera-flexible", "needs-gps", "touchscreen", "limited-internet", "needs-calls", "needs-texts", "needs-whatsapp", "needs-modern-look", "modern-look-flexible", "wants-transition-path", "transition-flexible", "school-flexible"],
+      "features": {
+        "camera": true,
+        "gps": true,
+        "messaging": true,
+        "internet": true,
+        "apps": true,
+        "touchscreen": true,
+        "durable": false,
+        "voiceMessages": true
+      },
+      "summary": "A restricted Android phone with WhatsApp, Spotify and Maps built in — but no social media, no browser, no app store.",
+      "bestFor": "Teens who need WhatsApp to stay in group chats and Maps for getting around, but whose parents want to keep social media and open browsing off the table."
+    },
+    {
+      "id": "light-phone-ii",
+      "name": "Light Phone II",
+      "category": "Follow-on Phone",
+      "price": "£299",
+      "image": "https://cdn.prod.website-files.com/67cffb7ce18d3302636e2be0/6821a19f8731f56c30d462cd_device_img-The%20Light%20Phone%20II.webp",
+      "ageRange": ["14-16"],
+      "budgetRange": ["budget-high", "budget-premium"],
+      "tags": ["no-camera-ok", "no-gps-ok", "basic-screen", "no-internet", "needs-calls", "needs-texts", "any-look-ok", "modern-look-flexible", "wants-simplicity", "any-durability-ok"],
+      "features": {
+        "camera": false,
+        "gps": false,
+        "messaging": true,
+        "internet": false,
+        "apps": false,
+        "touchscreen": true,
+        "durable": true,
+        "voiceMessages": false
+      },
+      "summary": "A beautifully minimalist e-ink phone for calls, texts, music and podcasts. No browser, no social media, no distractions. Designed for people who want less.",
+      "bestFor": "Older teens (or parents!) who actively want a calmer relationship with technology. A statement piece that says 'I choose to disconnect.'"
+    }
+  ]
+}
