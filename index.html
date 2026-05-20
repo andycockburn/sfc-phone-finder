@@ -847,7 +847,6 @@ function scoreDevices() {
       return { device, score };
     })
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
     .filter(d => d.score > 0);
 }
 
